@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Repositorio de Herramientas Operativas | Tasatop</title>
+
+  <!-- Tipografía corporativa -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" 
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- LOGIN -->
+    <section id="loginView" class="login-view">
+      <div class="login-card">
+        <div class="brand-box">
+          <img 
+            src="https://tasatop.com.pe/wp-content/uploads/elementor/thumbs/logos-17-r320c27cra86oeqcrd3z1dyn566kd6ppszxnuuh250.png" 
+            alt="Logo Tasatop" 
+            class="login-logo"
+          />
+
+          <h1>Repositorio de Herramientas Operativas</h1>
+          <p>Acceso centralizado a herramientas internas por área</p>
+        </div>
+
+        <form id="loginForm" class="login-form">
+          <div class="form-group">
+            <label for="username">Usuario</label>
+            <input 
+              type="text" 
+              id="username" 
+              placeholder="Ingresa tu usuario" 
+              autocomplete="username" 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input 
+              type="password" 
+              id="password" 
+              placeholder="Ingresa tu contraseña" 
+              autocomplete="current-password" 
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">
+            Ingresar
+          </button>
+
+          <p id="loginMessage" class="message"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboardView" class="dashboard-view hidden">
+      <header class="topbar">
+        <div class="topbar-brand">
+          <img 
+            src="https://tasatop.com.pe/wp-content/uploads/elementor/thumbs/logos-17-r320c27cra86oeqcrd3z1dyn566kd6ppszxnuuh250.png" 
+            alt="Logo Tasatop" 
+            class="topbar-logo"
+          />
+
+          <div class="topbar-title">
+            <h1>Repositorio de Herramientas Operativas</h1>
+            <p>Acceso centralizado a herramientas internas por área</p>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <span id="userBadge" class="badge"></span>
+          <button id="logoutBtn" class="btn btn-outline">Cerrar sesión</button>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <section class="dashboard-panel">
+          <div class="panel-heading">
+            <div class="panel-title">
+              <span class="section-kicker">Herramientas internas</span>
+              <h2 id="welcomeTitle">Herramientas disponibles</h2>
+              <p id="welcomeSubtitle">Visualiza las herramientas autorizadas para tu área.</p>
+            </div>
+
+            <button id="createToolBtn" class="btn btn-primary hidden">
+              + Crear bloque
+            </button>
+          </div>
+
+          <div id="adminNotice" class="admin-notice hidden">
+            <strong>Panel de administración:</strong> puedes crear, editar, eliminar y asignar visibilidad por área.
+          </div>
+
+          <div class="toolbar">
+            <div class="search-box">
+              <span class="search-icon">⌕</span>
+              <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Buscar herramienta por nombre o descripción..." 
+              />
+            </div>
+          </div>
+
+          <div id="toolsGrid" class="tools-grid"></div>
+
+          <div id="emptyState" class="empty-state hidden">
+            <div class="empty-icon">📂</div>
+            <h3>No se encontraron herramientas</h3>
+            <p>Prueba con otro término de búsqueda o solicita acceso al área de Operaciones.</p>
+          </div>
+        </section>
+      </main>
+    </section>
+
+    <!-- MODAL CREAR / EDITAR -->
+    <div id="toolModal" class="modal hidden">
+      <div class="modal-backdrop" id="modalBackdrop"></div>
+
+      <div class="modal-card">
+        <div class="modal-header">
+          <div>
+            <span class="section-kicker">Configuración</span>
+            <h2 id="modalTitle">Crear bloque</h2>
+            <p>Completa los datos de la herramienta.</p>
+          </div>
+
+          <button id="closeModalBtn" class="icon-btn" aria-label="Cerrar modal">×</button>
+        </div>
+
+        <form id="toolForm" class="tool-form">
+          <input type="hidden" id="toolId" />
+
+          <div class="form-group">
+            <label for="toolTitle">Título del bloque</label>
+            <input type="text" id="toolTitle" placeholder="Ej. Simulador de Inversión" />
+          </div>
+
+          <div class="form-group">
+            <label for="toolSubtitle">Subtítulo o descripción corta</label>
+            <textarea id="toolSubtitle" rows="3" placeholder="Describe brevemente la herramienta"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="toolLink">Link de la herramienta</label>
+            <input type="url" id="toolLink" placeholder="https://..." />
+          </div>
+
+          <div class="form-group">
+            <label for="toolImage">URL de imagen</label>
+            <input 
+              type="url" 
+              id="toolImage" 
+              placeholder="https://..." 
+            />
+            <small>Ingresa una URL de imagen relacionada con la herramienta.</small>
+          </div>
+
+          <div class="form-group">
+            <label>Áreas visibles</label>
+
+            <div class="checkbox-grid">
+              <label class="checkbox-card">
+                <input type="checkbox" value="operaciones" class="areaCheckbox" />
+                <span>Área Operaciones</span>
+              </label>
+
+              <label class="checkbox-card">
+                <input type="checkbox" value="comercial" class="areaCheckbox" />
+                <span>Área Comercial</span>
+              </label>
+
+              <label class="checkbox-card">
+                <input type="checkbox" value="cobranza" class="areaCheckbox" />
+                <span>Área Cobranza</span>
+              </label>
+            </div>
+          </div>
+
+          <p id="toolFormMessage" class="message"></p>
+
+          <div class="modal-actions">
+            <button type="button" id="cancelModalBtn" class="btn btn-outline">
+              Cancelar
+            </button>
+
+            <button type="submit" class="btn btn-primary">
+              Guardar bloque
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
